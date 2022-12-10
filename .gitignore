@@ -1,0 +1,6 @@
+node_modules
+.env
+.next
+.eslintrc.js
+out
+.env.local

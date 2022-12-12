@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import Container from 'styles/homepage.styles';
 import { SocketContext } from 'context/SocketContext';
-import { BELT_ID } from 'utils/constants';
+import { BELT_ID, SHOW_LOADER_COUNT } from 'utils/constants';
 
 const Index = () => {
   const socket = useContext(SocketContext);
@@ -13,8 +13,14 @@ const Index = () => {
   useEffect(() => {
     socket.on('bag-entry', data => {
       const transaction_id = parseInt(data?.transaction_id, 10);
-      if (transactionId === transaction_id) {
-        setSet(data?.bag_count);
+      if (transactionId === transaction_id && SHOW_LOADER_COUNT) {
+        setSet(data?.count);
+      }
+    });
+    socket.on('tag-entry', data => {
+      const transaction_id = parseInt(data?.transaction_id, 10);
+      if (transactionId === transaction_id && !SHOW_LOADER_COUNT) {
+        setSet(data?.count);
       }
     });
     socket.on('service', data => {

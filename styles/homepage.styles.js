@@ -45,7 +45,8 @@ const Container = styled.div`
   }
 
   span {
-    font-size: 4vw;
+    font-size: 6vw;
+    font-weigt: 900;
   }
 `;
 

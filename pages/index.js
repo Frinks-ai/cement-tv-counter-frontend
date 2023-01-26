@@ -1,7 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import Container from 'styles/homepage.styles';
 import { SocketContext } from 'context/SocketContext';
-import { BELT_ID, SHOW_LOADER_COUNT } from 'utils/constants';
+import {
+  BELT_ID,
+  CONFIGURE_PRINTING_BELT,
+  SHOW_LOADER_COUNT
+} from 'utils/constants';
 
 const Index = () => {
   const socket = useContext(SocketContext);
@@ -24,7 +28,9 @@ const Index = () => {
       }
     });
     socket.on('service', data => {
-      const belt_id = parseInt(data?.bag_counting_belt_id, 10);
+      const belt_id = CONFIGURE_PRINTING_BELT
+        ? parseInt(data?.printing_belt_id, 10)
+        : parseInt(data?.bag_counting_belt_id, 10);
       if (belt_id === BELT_ID) {
         const transaction_id = parseInt(data?.id, 10);
         const vehicle_number =

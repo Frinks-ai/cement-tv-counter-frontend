@@ -16,24 +16,21 @@ const Index = () => {
 
   useEffect(() => {
     socket.on('bag-entry', data => {
-      console.log(data, '-------BAG ENTRY', transactionId);
       const transaction_id = parseInt(data?.transaction_id, 10);
       if (transactionId === transaction_id && SHOW_LOADER_COUNT) {
         setSet(data?.count);
       }
     });
     socket.on('tag-entry', data => {
-      console.log(data, '-------TAG ENTRY', transactionId);
       const transaction_id = parseInt(data?.transaction_id, 10);
       if (transactionId === transaction_id && !SHOW_LOADER_COUNT) {
-        setSet(data?.count);
+        setSet(data?.tag_count);
       }
     });
     socket.on('service', data => {
       const belt_id = CONFIGURE_PRINTING_BELT
         ? parseInt(data?.printing_belt_id, 10)
         : parseInt(data?.bag_counting_belt_id, 10);
-      console.log(belt_id, BELT_ID, '-------Service ENTRY');
       if (belt_id === BELT_ID) {
         const transaction_id = parseInt(data?.id, 10);
         const vehicle_number =

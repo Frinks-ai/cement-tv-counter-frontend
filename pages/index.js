@@ -17,6 +17,7 @@ const Index = () => {
   useEffect(() => {
     socket.on('bag-entry', data => {
       const transaction_id = parseInt(data?.transaction_id, 10);
+      console.log(transactionId, transaction_id)
       if (transactionId === transaction_id && SHOW_LOADER_COUNT) {
         setSet(data?.count);
       }
@@ -28,9 +29,11 @@ const Index = () => {
       }
     });
     socket.on('service', data => {
+      // console.log(CONFIGURE_PRINTING_BELT)
       const belt_id = CONFIGURE_PRINTING_BELT
-        ? parseInt(data?.printing_belt_id, 10)
-        : parseInt(data?.bag_counting_belt_id, 10);
+        ? (data?.printing_belt_id)
+        : (data?.bag_counting_belt_id);
+        // console.log(belt_id, BELT_ID)
       if (belt_id === BELT_ID) {
         const transaction_id = parseInt(data?.id, 10);
         const vehicle_number =

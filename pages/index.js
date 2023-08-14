@@ -17,7 +17,7 @@ const Index = () => {
   useEffect(() => {
     socket.on('bag-entry', data => {
       const transaction_id = parseInt(data?.transaction_id, 10);
-      console.log(transactionId, transaction_id)
+      // console.log(transactionId, transaction_id);
       if (transactionId === transaction_id && SHOW_LOADER_COUNT) {
         setSet(data?.count);
       }
@@ -31,9 +31,9 @@ const Index = () => {
     socket.on('service', data => {
       // console.log(CONFIGURE_PRINTING_BELT)
       const belt_id = CONFIGURE_PRINTING_BELT
-        ? (data?.printing_belt_id)
-        : (data?.bag_counting_belt_id);
-        // console.log(belt_id, BELT_ID)
+        ? data?.printing_belt_id
+        : data?.bag_counting_belt_id;
+      // console.log(belt_id, BELT_ID)
       if (belt_id === BELT_ID) {
         const transaction_id = parseInt(data?.id, 10);
         const vehicle_number =
@@ -44,7 +44,7 @@ const Index = () => {
         setActual(actual_count);
       }
     });
-    socket.on('python-stop', data => {
+    socket.on('bag-done', data => {
       const transaction_id = parseInt(data?.transaction_id, 10);
       if (transactionId === transaction_id) {
         setSet(0);
@@ -53,7 +53,7 @@ const Index = () => {
         setVehicleNumber(null);
       }
     });
-    socket.on('update', data => {
+    socket.on('bag-update', data => {
       const transaction_id = parseInt(data?.transaction_id, 10);
       if (transactionId === transaction_id) {
         setActual(data?.new_limit);

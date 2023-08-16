@@ -18,7 +18,9 @@ const Index = () => {
     socket.on('bag-entry', data => {
       const transaction_id = parseInt(data?.transaction_id, 10);
       // console.log(transactionId, transaction_id);
-      if (BELT_ID === data?.belt_id && SHOW_LOADER_COUNT) {
+      if (printing_belt_id === data?.BELT_ID) {
+        setSet(data?.count);
+      } else if (BELT_ID === data?.belt_id && SHOW_LOADER_COUNT) {
         setSet(data?.count);
       }
     });
@@ -66,7 +68,7 @@ const Index = () => {
       <div className="vehicle-number">{transactionId ? vehicleNumber : ''}</div>
       <div className="current-count">
         <div className="count-container">
-          {transactionId ? (
+          {transactionId || set ? (
             <>
               <span>Actual - </span>
               {set}

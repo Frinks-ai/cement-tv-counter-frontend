@@ -18,13 +18,13 @@ const Index = () => {
     socket.on('bag-entry', data => {
       const transaction_id = parseInt(data?.transaction_id, 10);
       // console.log(transactionId, transaction_id);
-      if (transactionId === transaction_id && SHOW_LOADER_COUNT) {
+      if (BELT_ID === data?.belt_id && SHOW_LOADER_COUNT) {
         setSet(data?.count);
       }
     });
     socket.on('tag-entry', data => {
       const transaction_id = parseInt(data?.transaction_id, 10);
-      if (transactionId === transaction_id && !SHOW_LOADER_COUNT) {
+      if (BELT_ID === data?.belt_id && !SHOW_LOADER_COUNT) {
         setSet(data?.tag_count);
       }
     });
@@ -56,7 +56,7 @@ const Index = () => {
     socket.on('bag-update', data => {
       const transaction_id = parseInt(data?.transaction_id, 10);
       if (transactionId === transaction_id) {
-        setActual(data?.new_limit);
+        setActual(data?.new_bag_limit);
       }
     });
   }, [socket, transactionId]);

@@ -27,7 +27,10 @@ const Index = () => {
       }
     });
     socket.on('service', data => {
-      if (data?.belt_id === BELT_ID || data?.linked_printing_belt === BELT_ID) {
+      if (
+        data?.bag_counting_belt_id === BELT_ID ||
+        data?.linked_printing_belt === BELT_ID
+      ) {
         const transaction_id = parseInt(data?.id, 10);
         const vehicle_number =
           data?.vehicle_type === 1 ? data?.wagon_no : data?.licence_number;

@@ -16,14 +16,9 @@ const Index = () => {
 
   useEffect(() => {
     socket.on('bag-entry', data => {
-      const transaction_id = parseInt(data?.transaction_id, 10);
-      // console.log(transactionId, transaction_id);
-      if (data?.printing_belt_id === BELT_ID) {
-        setSet(data?.count);
-      } else if (BELT_ID === data?.belt_id) {
+      if (data?.printing_belt_id === BELT_ID || BELT_ID === data?.belt_id) {
         setSet(data?.count);
       }
-      setTransactionId(transaction_id);
     });
     socket.on('tag-entry', data => {
       const transaction_id = parseInt(data?.transaction_id, 10);
@@ -32,12 +27,7 @@ const Index = () => {
       }
     });
     socket.on('service', data => {
-      // console.log(CONFIGURE_PRINTING_BELT);
-      // const belt_id = CONFIGURE_PRINTING_BELT
-      //   ? data?.printing_belt_id
-      //   : data?.bag_counting_belt_id;
-      // console.log(belt_id, BELT_ID)
-      if (data?.belt_id === BELT_ID) {
+      if (data?.belt_id === BELT_ID || data?.linked_printing_belt === BELT_ID) {
         const transaction_id = parseInt(data?.id, 10);
         const vehicle_number =
           data?.vehicle_type === 1 ? data?.wagon_no : data?.licence_number;
@@ -46,11 +36,6 @@ const Index = () => {
         setVehicleNumber(vehicle_number);
         setActual(actual_count);
       }
-      // if (data?.printing_belt_id === BELT_ID) {
-      //   setSet(data?.count);
-      // } else if (BELT_ID === data?.belt_id) {
-      //   setSet(data?.count);
-      // }
     });
     socket.on('bag-done', data => {
       const transaction_id = parseInt(data?.transaction_id, 10);
